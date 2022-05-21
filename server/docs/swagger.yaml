@@ -1,0 +1,381 @@
+definitions:
+  entity.Friend:
+    properties:
+      friendId:
+        type: string
+      id:
+        type: string
+      lastInteraction:
+        description: for sorting in descendant order of last interaction time
+        type: string
+      userId:
+        type: string
+    type: object
+  entity.Mail:
+    properties:
+      arrivalTime:
+        type: string
+      content:
+        type: string
+      id:
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      receiverId:
+        type: string
+      senderId:
+        type: string
+      title:
+        type: string
+    type: object
+  entity.User:
+    properties:
+      avatarUrl:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      location:
+        additionalProperties:
+          type: number
+        description: update everytime the user logs ins
+        type: object
+      username:
+        description: unique and changable username, use for display
+        type: string
+    type: object
+  model.GetReceivedMailResponse:
+    properties:
+      receivedMails:
+        additionalProperties:
+          items:
+            $ref: '#/definitions/entity.Mail'
+          type: array
+        type: object
+      toId:
+        type: string
+    type: object
+  model.GetSentMailResponse:
+    properties:
+      fromId:
+        type: string
+      sentMails:
+        additionalProperties:
+          items:
+            $ref: '#/definitions/entity.Mail'
+          type: array
+        type: object
+    type: object
+  model.SendMail:
+    properties:
+      content:
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      receiverId:
+        type: string
+      senderId:
+        type: string
+      title:
+        type: string
+    type: object
+  model.SendRandomMail:
+    properties:
+      content:
+        type: string
+      images:
+        items:
+          type: string
+        type: array
+      senderId:
+        type: string
+      title:
+        type: string
+    type: object
+  model.UpdateFriend:
+    properties:
+      interactionTime:
+        type: string
+      userId1:
+        type: string
+      userId2:
+        type: string
+    type: object
+  model.UpdateLocation:
+    properties:
+      location:
+        additionalProperties:
+          type: number
+        type: object
+      userId:
+        type: string
+    type: object
+  util.HTTPError:
+    properties:
+      code:
+        example: 400
+        type: integer
+      message:
+        example: status bad request
+        type: string
+    type: object
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /friend:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      summary: Get Friends of a User by ID
+    post:
+      consumes:
+      - application/json
+      description: Need authentication to use
+      parameters:
+      - description: Update Friend Model
+        in: body
+        name: interaction
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateFriend'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Friend'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Create 2 new Friend docs in "friends" collection according to the ID
+        of the 2 users involving in the relationship
+  /mail:
+    post:
+      consumes:
+      - application/json
+      description: Need authentication to use
+      parameters:
+      - description: Send Mail Model
+        in: body
+        name: mail
+        required: true
+        schema:
+          $ref: '#/definitions/model.SendMail'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Mail'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Send Mail to a User.
+      tags:
+      - mail
+  /random_mail:
+    post:
+      consumes:
+      - application/json
+      description: Need authentication to use
+      parameters:
+      - description: Send Random Mail Model
+        in: body
+        name: mail
+        required: true
+        schema:
+          $ref: '#/definitions/model.SendRandomMail'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.Mail'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Send Mail to a random User.
+      tags:
+      - mail
+  /received_mails:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GetReceivedMailResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      summary: Get all Mails that a User has Received from their friends by ID
+      tags:
+      - mail
+  /sent_mails:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GetSentMailResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      summary: Get all Sent Mails from a User to their friends by ID
+      tags:
+      - mail
+  /unread_mails:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.GetReceivedMailResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      summary: Get all Mails that a User has Received from strangers by ID
+      tags:
+      - mail
+  /user:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: User ID
+        in: query
+        name: userId
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      summary: Get User by ID
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: Need authentication to use
+      parameters:
+      - description: User Entity
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new User doc in "users" collection
+      tags:
+      - user
+    put:
+      consumes:
+      - application/json
+      description: Need authentication to use
+      parameters:
+      - description: Update Location Model
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdateLocation'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.HTTPError'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Location of the User
+      tags:
+      - user
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
