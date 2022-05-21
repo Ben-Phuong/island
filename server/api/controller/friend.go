@@ -62,7 +62,6 @@ func (c *FriendController) AddFriend(g *gin.Context) {
 // @Router /friend [get]
 // @Success 200	{array} entity.User
 // @Failure 400	{object} util.HTTPError
-// GetAllFriends ...
 func (c *FriendController) GetAllFriends(g *gin.Context) {
 	userID := g.Query("userId")
 	if userID == "" {
