@@ -1,9 +1,7 @@
 import type { NextPage } from "next"
 import Head from "next/head"
 import React, { useCallback } from "react"
-import Image from "next/image"
-import styles from "../styles/Home.module.css"
-import LoginForm from "../components/LoginForm"
+import AuthenticationForm from "../components/AuthenticationForm"
 
 const Authentication: NextPage = () => {
   return (
@@ -15,7 +13,7 @@ const Authentication: NextPage = () => {
       <div className="flex flex-col md:flex-row min-h-screen">
         <div className="hidden md:flex md:w-1/2 bg-black"></div>
         <div className="flex flex-1 min-h-screen px-20 py-20 items-center justify-center md:px-0">
-          <LoginForm />
+          <AuthenticationForm />
         </div>
       </div>
     </div>
