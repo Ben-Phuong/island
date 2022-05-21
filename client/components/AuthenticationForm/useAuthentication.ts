@@ -1,10 +1,13 @@
+import { useRouter } from "next/router"
 import React, { useState, useEffect } from "react"
+import { useUser } from "../../auth/useUser"
 
 const ZOOM_IN = "transition-all transform scale-0 duration-400"
 const ZOOM_OUT = "transition-all transform scale-100 duration-400"
 export const useAuthenticationForm = () => {
+  const { user, logout } = useUser()
+  const router = useRouter()
   const [authentication, setAuthentication] = useState<string>("login")
-
   const [transition, setTransition] = useState<string>("")
   useEffect(() => {
     if (transition === ZOOM_IN)
@@ -13,6 +16,9 @@ export const useAuthenticationForm = () => {
         setTransition(ZOOM_OUT)
       }, 600)
   }, [transition])
+  useEffect(() => {
+    if (user) router.push("/home")
+  }, [user])
   const closeSignupForm = () => {
     setAuthentication("login")
   }

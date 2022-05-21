@@ -12,6 +12,8 @@ const LoginForm = (props: LoginFormProps) => {
     emailError,
     pwdError,
     handleSubmit,
+    loading,
+    loginMessage,
   } = useLoginForm()
 
   return (
@@ -48,10 +50,10 @@ const LoginForm = (props: LoginFormProps) => {
             onKeyDown={handleEnter}
             ref={pwdInput}
           />
+          <span className="block mt-2 mb-5 pl-3 text-md text-red-600 h-fit">
+            {pwdError ? `* ${pwdError}` : ""}
+          </span>
         </label>
-        <span className="block mt-2 mb-5 pl-3 text-md text-red-600 h-fit">
-          {pwdError ? `* ${pwdError}` : ""}
-        </span>
         <label className="block">
           <Checkbox />
           <span className="cursor-pointer align-middle font-medium self-center">
@@ -65,12 +67,40 @@ const LoginForm = (props: LoginFormProps) => {
             </span>
           </button>
         </label>
-        <button
-          type="submit"
-          className="block mt-16 px-5 py-4 rounded-xl text-center w-full max-w-xl bg-blue-600 hover:bg-blue-800 text-white text-3xl"
-        >
-          Log In
-        </button>
+        <label className="block">
+          <button
+            disabled={loading}
+            type="submit"
+            className="block relative mt-16 px-5 py-4 rounded-xl w-full max-w-xl bg-blue-600 hover:bg-blue-800 text-white text-3xl"
+          >
+            <span className="content-center">Log In</span>
+            {loading && (
+              <svg
+                className="inline absolute animate-spin ml-5 h-10 w-10 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            )}
+          </button>
+          <span className="block mt-2 mb-5 pl-3 text-md text-red-600">
+            {loginMessage ? `* ${loginMessage}` : ""}
+          </span>
+        </label>
       </form>
       <div className="px-3 my-5">
         {"Not register yet? "}

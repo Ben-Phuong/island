@@ -1,10 +1,16 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
+import firebase from "firebase/compat/app"
+import "firebase/compat/auth"
+
 export const useLoginForm = () => {
   const emailInput = useRef<HTMLInputElement>(null)
   const pwdInput = useRef<HTMLInputElement>(null)
 
   const [emailError, setEmailError] = useState<string>("")
   const [pwdError, setPwdError] = useState<string>("")
+
+  const [loading, setLoading] = useState<boolean>(false)
+  const [loginMessage, setLoginMessage] = useState<string>("")
 
   const handleEnter: React.KeyboardEventHandler = useCallback((event) => {
     if (event.key === "Enter") {
@@ -19,6 +25,7 @@ export const useLoginForm = () => {
   }, [])
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
+    if (loading) return
     let passed = true
     if (!emailInput.current?.value.includes("@")) {
       passed = false
@@ -31,16 +38,53 @@ export const useLoginForm = () => {
     if (!passed) return
     login()
   }
-  const login = () => {
-    alert(emailInput.current?.value + " " + pwdInput.current?.value)
+  const login = async () => {
+    const authentication = firebase.auth()
+    setLoading(true)
+    try {
+      const response = await authentication.signInWithEmailAndPassword(
+        emailInput.current?.value ?? "",
+        pwdInput.current?.value ?? ""
+      )
+      setLoading(false)
+      if (response.user) {
+        if (!response.user.emailVerified) {
+          setLoginMessage("Email is not verified. Please verify your email.")
+          return
+        }
+        const idToken = await response.user.getIdToken()
+        requestLogin({
+          idToken,
+        })
+      }
+    } catch (e) {
+      setLoginMessage("Something must be wrong. Please try again.")
+    } finally {
+      setLoading(false)
+    }
   }
-
+  const requestLogin = async (data: any) => {
+    return
+    try {
+      const response = fetch(process.env.API_ENDPOINT + " ", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+    } catch (error) {
+      alert("Something must be wrong. Please try again.")
+    }
+  }
   return {
+    loginMessage,
     handleEnter,
     emailInput,
     pwdInput,
     handleSubmit,
     emailError,
     pwdError,
+    loading,
   }
 }

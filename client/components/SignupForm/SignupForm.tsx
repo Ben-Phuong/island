@@ -16,6 +16,8 @@ const SignupForm = (props: SignupFormProps) => {
     pwdError,
     nameInput,
     nameError,
+    loading,
+    signupMessage,
   } = useSignupForm(props)
   return (
     <>
@@ -23,7 +25,7 @@ const SignupForm = (props: SignupFormProps) => {
         Create your Account
       </h1>
       <form onSubmit={handleSubmit} noValidate className="block px-3">
-        <label className="block">
+        {/* <label className="block">
           <span className="text-xl font-medium font-sans">Display Name</span>
           <input
             className={
@@ -39,7 +41,7 @@ const SignupForm = (props: SignupFormProps) => {
           <span className="block mt-2 mb-5 pl-3 text-md text-red-600">
             {nameError ? `* ${nameError}` : ""}
           </span>
-        </label>
+        </label> */}
         <label className="block">
           <span className="text-xl font-medium font-sans">Email Address</span>
           <input
@@ -70,16 +72,44 @@ const SignupForm = (props: SignupFormProps) => {
             onKeyDown={handleEnter}
             ref={pwdInput}
           />
+          <span className="block mt-2 mb-5 pl-3 text-md text-red-600 h-fit">
+            {pwdError ? `* ${pwdError}` : ""}
+          </span>
         </label>
-        <span className="block mt-2 mb-5 pl-3 text-md text-red-600 h-fit">
-          {pwdError ? `* ${pwdError}` : ""}
-        </span>
-        <button
-          type="submit"
-          className="block mt-16 px-5 py-4 rounded-xl text-center w-full max-w-xl bg-blue-600 hover:bg-blue-800 text-white text-3xl"
-        >
-          Sign Up
-        </button>
+        <label className="block">
+          <button
+            disabled={loading}
+            type="submit"
+            className="block relative mt-16 px-5 py-4 rounded-xl w-full max-w-xl bg-blue-600 hover:bg-blue-800 text-white text-3xl"
+          >
+            <span className="content-center">Sign Up</span>
+            {loading && (
+              <svg
+                className="inline absolute animate-spin ml-5 h-10 w-10 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            )}
+          </button>
+          <span className="block mt-2 mb-5 pl-3 text-md text-red-600">
+            {signupMessage ? `* ${signupMessage}` : ""}
+          </span>
+        </label>
       </form>
       <div className="px-3 my-5">
         {"Have an account? "}

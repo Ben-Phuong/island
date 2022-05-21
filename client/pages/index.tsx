@@ -1,7 +1,10 @@
 import type { NextPage } from "next"
 import Head from "next/head"
 import React, { useCallback } from "react"
+import { initFirebase } from "../auth/firebaseConfig"
 import AuthenticationForm from "../components/AuthenticationForm"
+
+initFirebase()
 
 const Authentication: NextPage = () => {
   return (
