@@ -30,7 +30,7 @@ func (m CorsMiddleware) Setup() {
 		AllowOriginFunc: func(origin string) bool {
 			return true
 		},
-		AllowedOrigins:   []string{"*", ""},
+		AllowedOrigins:   []string{"*"},
 		AllowedHeaders:   []string{"Content-Type", "Origin", "Accept", "Accept-Encoding", "Authorization"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "HEAD", "OPTIONS"},
 		ExposedHeaders:   []string{"Content-Length"},

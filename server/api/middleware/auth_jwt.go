@@ -35,6 +35,7 @@ func (m JWTFirebaseAuthMiddleware) HandlerCheckAuth() gin.HandlerFunc {
 		if len(t) == 2 {
 			authToken := t[1]
 			_, err := m.fbase.Auth.VerifyIDToken(c, authToken)
+
 			if err == nil {
 				c.Next()
 				return
