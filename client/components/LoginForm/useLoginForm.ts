@@ -1,11 +1,11 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 export const useLoginForm = () => {
   const emailInput = useRef<HTMLInputElement>(null)
   const pwdInput = useRef<HTMLInputElement>(null)
 
   const [emailError, setEmailError] = useState<string>("")
   const [pwdError, setPwdError] = useState<string>("")
-  const [isSignup, setIsSignup] = useState<boolean>(false)
+
   const handleEnter: React.KeyboardEventHandler = useCallback((event) => {
     if (event.key === "Enter") {
       // @ts-ignore
@@ -23,34 +23,24 @@ export const useLoginForm = () => {
     if (!emailInput.current?.value.includes("@")) {
       passed = false
       setEmailError(`Please include an "@" in the email address.`)
-    }
+    } else setEmailError("")
     if ((pwdInput.current?.value.length ?? 0) < 8) {
       passed = false
       setPwdError(`A password must be at least 8 characters`)
-    }
+    } else setPwdError("")
     if (!passed) return
-    setEmailError("")
-    setPwdError("")
     login()
   }
   const login = () => {
     alert(emailInput.current?.value + " " + pwdInput.current?.value)
   }
-  const openSignupForm = () => {
-    setTimeout(() => setIsSignup(true), 600)
-  }
-  const closeSignupForm = () => {
-    setIsSignup(false)
-  }
+
   return {
-    openSignupForm,
-    isSignup,
     handleEnter,
     emailInput,
     pwdInput,
     handleSubmit,
     emailError,
     pwdError,
-    closeSignupForm,
   }
 }
