@@ -22,3 +22,4 @@ export const signupAsync = async (data: any) => {
     console.log(error)
   }
 }
+export const getFriendAsync = async () => {}

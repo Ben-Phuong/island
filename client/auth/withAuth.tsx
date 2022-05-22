@@ -7,7 +7,7 @@ import { initFirebase } from "./firebaseConfig"
 initFirebase()
 const auth = firebase.auth()
 
-const withAuth = (Component) => (props) => {
+const withAuth = (Component: any) => (props: any) => {
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (!authUser) {

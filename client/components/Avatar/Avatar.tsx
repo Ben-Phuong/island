@@ -27,6 +27,7 @@ export const Avatar = (props: any) => {
   return (
     <div className="w-12 h-12">
       <button
+        title="Open settings"
         type="button"
         className="rounded-full overflow-hidden hover:drop-shadow-xl hover:scale-125"
         onClick={handleOpenUserMenu}

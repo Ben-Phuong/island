@@ -1,25 +1,54 @@
-export const SideBarItem = (props: { isCurrentFriend?: boolean }) => {
+import { Friend } from "../../type"
+import CheckIcon from "@mui/icons-material/Check"
+export interface SideBarItemProps {
+  isSelectedFriend?: boolean
+  onClick?: React.MouseEventHandler
+  friend?: Friend
+  addFriend?: React.MouseEventHandler
+}
+export const SideBarItem = (props: SideBarItemProps) => {
   return (
-    <button type="button">
+    <button
+      type="button"
+      onClick={props.onClick}
+      className="flex relative group items-center justify-end"
+    >
       <div
         className={
-          props.isCurrentFriend
-            ? "flex flex-none w-full h-32 rounded-xl bg-blue-500/50 mb-1 items-center"
-            : "flex flex-none w-full h-32 rounded-xl hover:bg-sky-300/30 mb-1 items-center"
+          props.friend
+            ? props.isSelectedFriend
+              ? "flex flex-none w-full h-32 rounded-xl bg-blue-500/50 mb-1 items-center"
+              : "flex flex-none w-full h-32 rounded-xl group-hover:bg-sky-300/30 mb-1 items-center"
+            : "flex flex-none w-full h-32 rounded-xl bg-blue-500/50 mb-1 items-center animate-pulse"
         }
       >
-        <div className="h-20 w-20 rounded-full overflow-hidden m-3">
-          <img src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t1.6435-1/65424285_2318650985054573_3720033838362001408_n.jpg?stp=dst-jpg_p100x100&_nc_cat=111&ccb=1-7&_nc_sid=7206a8&_nc_ohc=8hQwe0--lb4AX-MPvmT&_nc_oc=AQmZCdxL6sHpLH2o7LvxsbbYzGf2bvW6KLCKzGt-lpZIQlbr8qFkLwEslQJvBUDC1FY&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9_MTY02GIYvxIZn89lp5ZMaG1WYGfVCeDz5HvuuM1G3g&oe=62AD0E28" />
+        <div className={"h-20 w-20 rounded-full overflow-hidden m-3"}>
+          {props.friend?.avatarUrl ? (
+            <img src={props.friend.avatarUrl} />
+          ) : (
+            <div className="bg-blue-300 h-full w-full"></div>
+          )}
         </div>
         <div className="flex flex-1 h-20 flex-col items-start justify-around pl-2">
-          <span className="flex-none font-bold text-xl">quang</span>
+          <span className="flex-none font-bold text-xl">
+            {props.friend?.username ?? ""}
+          </span>
           <div className="overflow-hidden">
             <span className="flex flex-none justify-start text-left text-gray-500">
-              xin chao
+              {props.friend?.latestTitle || "."}
             </span>
           </div>
         </div>
       </div>
+      {props.addFriend && (
+        <div
+          title="Add to friend list"
+          onClick={props.addFriend}
+          className="absolute hidden group-hover:flex mr-10 rounded-full overflow-hidden"
+        >
+          <CheckIcon className="w-10 h-10 text-blue-700 hover:bg-white group hover:drop-shadow-lg" />
+        </div>
+      )}
     </button>
   )
 }

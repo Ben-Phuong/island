@@ -6,7 +6,7 @@ import CreateMailModal from "../../components/CreateMailModal"
 import FloatingSendButton from "../../components/FloatingSendButton"
 import MailDetailModal from "../../components/MailDetailModal"
 import SideBar from "../../components/SideBar"
-import { useHome } from "./useHome"
+import useHome from "../../components/useHome"
 
 const Home: NextPage = () => {
   const {
@@ -19,6 +19,11 @@ const Home: NextPage = () => {
     selectedFriend,
     openFriendChat,
     friends,
+    receivedMails,
+    sentMails,
+    mode,
+    switchMode,
+    unreadMails,
   } = useHome()
   return (
     <div className="flex h-screen w-screen">
@@ -29,13 +34,28 @@ const Home: NextPage = () => {
           selectedFriend={selectedFriend}
           openFriendChat={openFriendChat}
           friends={friends}
+          mode={mode}
+          switchMode={switchMode}
+          unreadMails={unreadMails}
         />
       </div>
       <div className="flex flex-1 bg-blue-100/75">
-        <Conversation />
+        <Conversation
+          sentMails={sentMails}
+          receivedMails={receivedMails}
+          selectedfriend={selectedFriend}
+        />
       </div>
-      <FloatingSendButton openCreateModal={openCreateFriendModal} />
-      {modal && <CreateMailModal closeModal={closeCreateModal} to={modal} />}
+      {selectedFriend ? (
+        <FloatingSendButton openCreateModal={openCreateFriendModal} />
+      ) : null}
+      {modal && (
+        <CreateMailModal
+          closeModal={closeCreateModal}
+          to={modal}
+          friend={selectedFriend}
+        />
+      )}
     </div>
   )
 }

@@ -52,10 +52,11 @@ export const useLoginForm = () => {
           setLoginMessage("Email is not verified. Please verify your email.")
           return
         }
-        const idToken = await response.user.getIdToken()
-        requestLogin({
-          idToken,
-        })
+      }
+      if (navigator && navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          console.log(pos.coords)
+        }, null)
       }
     } catch (e) {
       setLoginMessage("Something must be wrong. Please try again.")
@@ -63,20 +64,7 @@ export const useLoginForm = () => {
       setLoading(false)
     }
   }
-  const requestLogin = async (data: any) => {
-    return
-    try {
-      const response = fetch(process.env.API_ENDPOINT + " ", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-    } catch (error) {
-      alert("Something must be wrong. Please try again.")
-    }
-  }
+
   return {
     loginMessage,
     handleEnter,

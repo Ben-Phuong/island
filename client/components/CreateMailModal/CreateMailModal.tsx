@@ -1,8 +1,14 @@
 import CloseIcon from "@mui/icons-material/Close"
 import { useCreateMailModal } from "./useCreateMailModal"
 import CheckIcon from "@mui/icons-material/Check"
+import { Friend } from "../../type"
 
-export const CreateMailModal = (props) => {
+export interface CreateMailModalProps {
+  friend: Friend | undefined
+  closeModal: React.MouseEventHandler
+  to: string
+}
+export const CreateMailModal = (props: CreateMailModalProps) => {
   const {
     handleLongEmail,
     titleInput,
@@ -10,7 +16,7 @@ export const CreateMailModal = (props) => {
     handleSubmit,
     handleEnter,
     loading,
-  } = useCreateMailModal(props)
+  } = useCreateMailModal()
   return (
     <div
       className="flex justify-center items-center absolute w-screen h-screen bg-black/30 top-0 left-0"
@@ -21,6 +27,7 @@ export const CreateMailModal = (props) => {
         onClick={(e) => e.stopPropagation()}
       >
         <button
+          title="Close"
           className="absolute top-3 right-3"
           type="button"
           onClick={props.closeModal}
@@ -34,8 +41,7 @@ export const CreateMailModal = (props) => {
                 To
               </span>
               <span className="flex flex-1 justify-center overflow-auto font-mono text-white/70 mx-12">
-                {/* {props.currentFriend?.name} */}
-                quanggr8
+                {props.friend?.username}
               </span>
             </>
           ) : (

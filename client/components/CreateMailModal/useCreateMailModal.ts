@@ -1,6 +1,6 @@
 import React, { useRef, useCallback, useState, useEffect } from "react"
 
-export const useCreateMailModal = (props) => {
+export const useCreateMailModal = () => {
   const titleInput = useRef<HTMLInputElement>(null)
   const contentInput = useRef<HTMLTextAreaElement>(null)
   const [loading, setLoading] = useState<string>("")
