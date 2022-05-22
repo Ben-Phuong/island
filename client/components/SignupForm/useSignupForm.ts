@@ -67,7 +67,7 @@ export const useSignupForm = (props: SignupFormProps) => {
           username: nameInput.current?.value,
         })
         response.user.sendEmailVerification()
-        alert("Sign Up success! Please verify your email.")
+        setSignupMessage("Sign Up success! Please verify your email.")
       }
     } catch (e: any) {
       setSignupMessage("Something must be wrong. Please try again.")

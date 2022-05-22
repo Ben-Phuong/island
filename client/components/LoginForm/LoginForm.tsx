@@ -71,7 +71,7 @@ const LoginForm = (props: LoginFormProps) => {
           <button
             disabled={loading}
             type="submit"
-            className="block relative mt-16 px-5 py-4 rounded-xl w-full max-w-xl bg-blue-600 hover:bg-blue-800 text-white text-3xl"
+            className="block relative mt-16 px-5 py-4 rounded-xl w-full max-w-xl bg-blue-600 hover:bg-blue-800 text-white text-3xl disabled:bg-blue-600"
           >
             <span className="content-center">Log In</span>
             {loading && (
@@ -104,7 +104,7 @@ const LoginForm = (props: LoginFormProps) => {
       </form>
       <div className="px-3 my-5">
         {"Not register yet? "}
-        <button onClick={props.changeForm}>
+        <button onClick={props.changeForm} type="button">
           <span className="text-right text-blue-600 font-bold hover:text-blue-900">
             Create an Account
           </span>
