@@ -25,7 +25,7 @@ const SignupForm = (props: SignupFormProps) => {
         Create your Account
       </h1>
       <form onSubmit={handleSubmit} noValidate className="block px-3">
-        {/* <label className="block">
+        <label className="block">
           <span className="text-xl font-medium font-sans">Display Name</span>
           <input
             className={
@@ -41,7 +41,7 @@ const SignupForm = (props: SignupFormProps) => {
           <span className="block mt-2 mb-5 pl-3 text-md text-red-600">
             {nameError ? `* ${nameError}` : ""}
           </span>
-        </label> */}
+        </label>
         <label className="block">
           <span className="text-xl font-medium font-sans">Email Address</span>
           <input

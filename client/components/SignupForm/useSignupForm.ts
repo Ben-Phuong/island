@@ -30,11 +30,11 @@ export const useSignupForm = (props: SignupFormProps) => {
     event.preventDefault()
     if (loading) return
     let passed = true
-    // if ((nameInput.current?.value.length ?? 0) < 3) {
-    //   console.log(nameInput.current)
-    //   passed = false
-    //   setNameError(`Please include an "@" in the email address.`)
-    // } else setNameError("")
+    if ((nameInput.current?.value.length ?? 0) < 3) {
+      console.log(nameInput.current)
+      passed = false
+      setNameError(`Please include an "@" in the email address.`)
+    } else setNameError("")
     if (!emailInput.current?.value.includes("@")) {
       passed = false
       setEmailError(`Please include an "@" in the email address.`)
