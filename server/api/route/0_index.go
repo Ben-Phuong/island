@@ -6,12 +6,9 @@ import (
 
 // Module ...
 var Module = fx.Options(
-	// fx.Provide(NewEventRoutes),
-	// fx.Provide(NewItemRoutes),
-	// fx.Provide(NewQuestRoutes),
-	// fx.Provide(NewRewardRoutes),
-	// fx.Provide(NewRunnerRoutes),
-	// fx.Provide(NewViewerRoutes),
+	fx.Provide(NewFriendRoutes),
+	fx.Provide(NewMailRoutes),
+	fx.Provide(NewUserRoutes),
 	fx.Provide(NewRoutes),
 )
 
@@ -25,21 +22,14 @@ type Route interface {
 
 // NewRoutes sets up routes
 func NewRoutes(
-	// eventRoutes EventRoutes,
-	// itemRoutes ItemRoutes,
-	// questRoutes QuestRoutes,
-	// rewardRoutes RewardRoutes,
-	// runnerRoutes RunnerRoutes,
-	// viewerRoutes ViewerRoutes,
-
+	friendRoutes FriendRoutes,
+	mailRoutes MailRoutes,
+	userRoutes UserRoutes,
 ) Routes {
 	return Routes{
-		// &eventRoutes,
-		// &itemRoutes,
-		// &questRoutes,
-		// &rewardRoutes,
-		// &runnerRoutes,
-		// &viewerRoutes,
+		&friendRoutes,
+		&mailRoutes,
+		&userRoutes,
 	}
 }
 

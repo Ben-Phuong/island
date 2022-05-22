@@ -46,6 +46,7 @@ func (c *UserController) UserSignUp(g *gin.Context) {
 	if err := g.ShouldBindJSON(&user); err != nil {
 		util.NewError(g, http.StatusBadRequest, err, c.logger)
 		return
+	} else {
 	}
 
 	if result, err := c.userService.CreateUser(&user); err != nil {

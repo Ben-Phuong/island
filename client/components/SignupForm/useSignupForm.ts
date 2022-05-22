@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from "react"
 import { SignupFormProps } from "./SignupForm"
+import { signupAsync } from "../../api"
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 
@@ -56,9 +57,14 @@ export const useSignupForm = (props: SignupFormProps) => {
       )
       setLoading(false)
       if (response.user) {
-        const idToken = await response.user.getIdToken()
-        requestSignUp({
-          idToken,
+        // const idToken = await response.user.getIdToken()
+        // requestSignUp({
+        //   idToken,
+        // })
+        signupAsync({
+          email: emailInput.current?.value,
+          id: response.user.uid,
+          username: nameInput.current?.value,
         })
         response.user.sendEmailVerification()
         alert("Sign Up success! Please verify your email.")
