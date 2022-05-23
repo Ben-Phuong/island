@@ -1,8 +1,8 @@
 import React, { useCallback, useRef, useState } from "react"
 import { SignupFormProps } from "./SignupForm"
-import { signupAsync } from "../../api"
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
+import { signupAsync } from "../../api/user"
 
 export const useSignupForm = (props: SignupFormProps) => {
   const nameInput = useRef<HTMLInputElement>(null)
@@ -32,7 +32,6 @@ export const useSignupForm = (props: SignupFormProps) => {
     if (loading) return
     let passed = true
     if ((nameInput.current?.value.length ?? 0) < 3) {
-      console.log(nameInput.current)
       passed = false
       setNameError(`Please include an "@" in the email address.`)
     } else setNameError("")
@@ -78,20 +77,7 @@ export const useSignupForm = (props: SignupFormProps) => {
       setLoading(false)
     }
   }
-  const requestSignUp = async (data: any) => {
-    return
-    try {
-      const response = await fetch(process.env.API_ENDPOINT + " ", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-    } catch (error) {
-      alert("Something must be wrong. Please try again.")
-    }
-  }
+
   return {
     handleEnter,
     emailInput,

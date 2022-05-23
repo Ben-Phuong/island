@@ -5,14 +5,9 @@ import "firebase/compat/auth"
 import { initFirebase } from "./firebaseConfig"
 import { getUserFromCookie, removeUserCookie, setUserCookie } from "./useCookie"
 
-export interface User {
-  [x: string]: any
-  uid: string
-  email: string
-}
 initFirebase()
 
-export const mapUserData = async (user: User) => {
+export const mapUserData = async (user: firebase.User) => {
   const { uid, email } = user
   const token = await user.getIdToken(true)
   return {
@@ -21,19 +16,15 @@ export const mapUserData = async (user: User) => {
     token,
   }
 }
+let count = 0
 const useUser = () => {
   const [user, setUser] = useState<any>()
-  const router = useRouter()
-
-  const logout = async () => {
-    return firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        router.push("/").catch((e) => {
-          console.log(e)
-        })
-      })
+  const validateUser = async (user: {
+    uid: string
+    email: string | null
+    token: string
+  }) => {
+    return false
   }
 
   useEffect(() => {
@@ -41,8 +32,10 @@ const useUser = () => {
       .auth()
       .onIdTokenChanged(async (userToken: any) => {
         if (userToken) {
-          if (!userToken.emailVerified) return
+          // verify email
+          // if (!userToken.emailVerified) return
           const userData = await mapUserData(userToken)
+
           setUserCookie(userData)
           setUser(userData)
         } else {
@@ -52,15 +45,14 @@ const useUser = () => {
       })
 
     const userFromCookie = getUserFromCookie()
-    if (!userFromCookie) {
-      router.push("/")
-      return
-    }
+    if (!userFromCookie) return
     setUser(userFromCookie)
-    return () => cancelAuthListener()
+    return () => {
+      cancelAuthListener()
+    }
   }, [])
 
-  return { user, logout }
+  return user
 }
 
 export { useUser }

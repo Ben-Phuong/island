@@ -3,7 +3,8 @@ import { MenuItem, Menu } from "@mui/material"
 import LogoutIcon from "@mui/icons-material/Logout"
 import PersonIcon from "@mui/icons-material/Person"
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera"
-import { useUser } from "../../auth/useUser"
+import firebase from "firebase/compat/app"
+import "firebase/compat/auth"
 
 const settings = [
   { name: "Profile", icon: PersonIcon },
@@ -11,7 +12,7 @@ const settings = [
   { name: "Log out", icon: LogoutIcon },
 ]
 
-export const Avatar = (props: any) => {
+export const Avatar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
@@ -22,7 +23,9 @@ export const Avatar = (props: any) => {
 
   const handleCloseUserMenu = (setting: string) => {
     setAnchorElUser(null)
-    if (setting === "Log out" && props.logout) props.logout()
+    if (setting === "Log out") {
+      firebase.auth().signOut()
+    }
   }
   return (
     <div className="w-12 h-12">

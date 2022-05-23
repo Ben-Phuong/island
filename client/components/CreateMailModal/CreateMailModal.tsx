@@ -2,21 +2,23 @@ import CloseIcon from "@mui/icons-material/Close"
 import { useCreateMailModal } from "./useCreateMailModal"
 import CheckIcon from "@mui/icons-material/Check"
 import { Friend } from "../../type"
+import TextToxicity from "@tensorflow-models/toxicity"
 
 export interface CreateMailModalProps {
   friend: Friend | undefined
   closeModal: React.MouseEventHandler
   to: string
+  toxicModel: TextToxicity.ToxicityClassifier | undefined
 }
 export const CreateMailModal = (props: CreateMailModalProps) => {
   const {
     handleLongEmail,
     titleInput,
     contentInput,
-    handleSubmit,
+    handleSubmitAsync,
     handleEnter,
     loading,
-  } = useCreateMailModal()
+  } = useCreateMailModal(props.toxicModel)
   return (
     <div
       className="flex justify-center items-center absolute w-screen h-screen bg-black/30 top-0 left-0"
@@ -75,7 +77,7 @@ export const CreateMailModal = (props: CreateMailModalProps) => {
               <button
                 disabled={!!loading}
                 type="button"
-                onClick={handleSubmit}
+                onClick={handleSubmitAsync}
                 className="block relative px-5 py-4 rounded-xl w-full bg-sky-600 hover:bg-sky-800 text-white text-3xl disabled:bg-blue-600"
               >
                 <span className="content-center">
@@ -108,7 +110,11 @@ export const CreateMailModal = (props: CreateMailModalProps) => {
                       ></path>
                     </svg>
                   ) : (
-                    <CheckIcon className="inline absolute ml-5 h-10 w-10 text-white" />
+                    <CheckIcon
+                      width={20}
+                      height={20}
+                      className="inline absolute ml-5 mt-1 h-20 w-20 text-white scale-150"
+                    />
                   ))}
               </button>
             </label>

@@ -48,15 +48,11 @@ export const useLoginForm = () => {
       )
       setLoading(false)
       if (response.user) {
-        if (!response.user.emailVerified) {
-          setLoginMessage("Email is not verified. Please verify your email.")
-          return
-        }
-      }
-      if (navigator && navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((pos) => {
-          console.log(pos.coords)
-        }, null)
+        // verify email
+        // if (!response.user.emailVerified) {
+        //   setLoginMessage("Email is not verified. Please verify your email.")
+        //   return
+        // }
       }
     } catch (e) {
       setLoginMessage("Something must be wrong. Please try again.")

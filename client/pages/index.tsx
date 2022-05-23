@@ -1,26 +1,43 @@
 import type { NextPage } from "next"
 import Head from "next/head"
-import React, { useCallback } from "react"
+import React, { useEffect, useState } from "react"
 import { initFirebase } from "../auth/firebaseConfig"
-import AuthenticationForm from "../components/AuthenticationForm"
+import { useUser } from "../auth/useUser"
+import Auth from "../components/Auth"
+import Home from "../components/Home"
+import LoadingUser from "../components/LoadingUser"
+// import TextToxicity from "@tensorflow-models/toxicity"
 
 initFirebase()
+const THRESHOLD = 0.9
+const TextToxicity = require("@tensorflow-models/toxicity")
 
-const Authentication: NextPage = () => {
+const Island: NextPage = () => {
+  const user = useUser()
+  const [toxicModel, setToxicModel] = useState<any>()
+  // load text toxicity model
+  useEffect(() => {
+    if (TextToxicity)
+      TextToxicity.load(THRESHOLD, []).then((model) => {
+        setToxicModel(model)
+      })
+  }, [])
+
   return (
     <div>
       <Head>
-        <title>Island - Log in or Sign up</title>
+        <title>Island</title>
         <link rel="icon" href="/favicon.ico"></link>
       </Head>
-      <div className="flex flex-col md:flex-row min-h-screen">
-        <div className="hidden md:flex md:w-1/2 bg-black"></div>
-        <div className="flex flex-1 min-h-screen px-20 py-20 items-center justify-center md:px-0">
-          <AuthenticationForm />
-        </div>
-      </div>
+      {user === undefined ? (
+        <LoadingUser />
+      ) : user ? (
+        <Home toxicModel={toxicModel} />
+      ) : (
+        <Auth />
+      )}
     </div>
   )
 }
 
-export default Authentication
+export default Island

@@ -1,12 +1,12 @@
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
-// const endpoint = process.env.API_ENDPOINT
-const endpoint = "http://localhost:8000/api"
+const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + "user/"
+// const endpoint = "http://localhost:8000/api/user/"
 
 export const signupAsync = async (data: any) => {
   try {
     const idToken = await firebase.auth().currentUser?.getIdToken()
-    console.log("ENDPOINT: ", endpoint)
+
     const response = await fetch(`${endpoint}/user`, {
       method: "POST",
       body: JSON.stringify(data),
@@ -16,10 +16,10 @@ export const signupAsync = async (data: any) => {
       },
       mode: "cors",
     })
-    const dataJson = JSON.parse(await response.json())
-    console.log(dataJson)
+    const dataJSON = JSON.parse(await response.json())
+    return dataJSON
   } catch (error) {
     console.log(error)
+    return { error: "Something must be wrong. Please try again" }
   }
 }
-export const getFriendAsync = async () => {}

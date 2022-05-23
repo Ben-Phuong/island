@@ -1,5 +1,7 @@
 import React, { useState } from "react"
-import { Mail, UnreadMail } from "../../type"
+import { UnreadMail } from "../../type"
+import firebase from "firebase/compat/app"
+import "firebase/compat/auth"
 
 export const useSideBar = () => {
   const [mailDetail, setMailDetail] = useState<UnreadMail>()

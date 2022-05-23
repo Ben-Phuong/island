@@ -21,44 +21,35 @@ export const Conversation = (props: ConversationProps) => {
         </div>
         <div className="flex flex-1 relative pl-3 pt-16">
           <div className="flex w-full h-fit overflow-x-scroll scrollbar absolute">
-            {props.receivedMails
-              ? props.receivedMails.map((mail, key) => (
-                  <MailPost
-                    mail={mail}
-                    key={key}
-                    onClick={openDetailModal(mail)}
-                  />
-                ))
-              : null}
-            <>
+            {props.receivedMails ? (
+              props.receivedMails.map((mail, key) => (
+                <MailPost
+                  mail={mail}
+                  key={key}
+                  onClick={openDetailModal(mail)}
+                />
+              ))
+            ) : (
               <MailPost />
-              <MailPost />
-              <MailPost />
-              <MailPost />
-              <MailPost />
-            </>
+            )}
           </div>
         </div>
       </div>
       <div className="flex flex-1 p-10">
         <div className="flex flex-1 relative items-end pb-24 mr-24">
           <div className="flex w-full h-fit overflow-auto scrollbar absolute">
-            {props.sentMails
-              ? props.sentMails.map((mail, key) => (
-                  <MailPost
-                    mail={mail}
-                    key={key}
-                    onClick={openDetailModal(mail)}
-                  />
-                ))
-              : null}
-            <>
-              <MailPost />
-              <MailPost />
-              <MailPost />
-              <MailPost />
-              <MailPost />
-            </>
+            {props.sentMails ? (
+              props.sentMails.map((mail, key) => (
+                <MailPost
+                  isFirst={key === 0}
+                  mail={mail}
+                  key={key}
+                  onClick={openDetailModal(mail)}
+                />
+              ))
+            ) : (
+              <MailPost isFirst />
+            )}
           </div>
         </div>
       </div>
