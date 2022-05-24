@@ -72,6 +72,7 @@ func (c *FriendController) GetAllFriends(g *gin.Context) {
 	if result, err := c.friendService.GetAllFriends(userID); err != nil {
 		util.NewError(g, http.StatusInternalServerError, err, c.logger)
 	} else {
-		g.JSON(http.StatusOK, result)
+		tmp := model.GetFriends{Friends: result}
+		g.JSON(http.StatusOK, tmp)
 	}
 }

@@ -12,5 +12,6 @@ type User struct {
 	// update everytime the user logs ins
 	Location map[string]float64 `json:"location" firestore:"location"`
 	// unique and changable username, use for display
-	Username string `json:"username" firestore:"username"`
+	Username      string `json:"username" firestore:"username"`
+	LastMailTitle string `json:"lastMailTitle" firestore:"-"`
 }
