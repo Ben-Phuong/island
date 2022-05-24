@@ -4,6 +4,7 @@ import { useSignupForm } from "./useSignupForm"
 
 export interface SignupFormProps {
   changeForm: React.MouseEventHandler
+  showError: Function
 }
 
 const SignupForm = (props: SignupFormProps) => {

@@ -9,33 +9,26 @@ initFirebase()
 
 export const mapUserData = async (user: firebase.User) => {
   const { uid, email } = user
-  const token = await user.getIdToken(true)
+  const idToken = await user.getIdToken(true)
   return {
     uid,
     email,
-    token,
+    idToken,
   }
 }
 let count = 0
 const useUser = () => {
   const [user, setUser] = useState<any>()
-  const validateUser = async (user: {
-    uid: string
-    email: string | null
-    token: string
-  }) => {
-    return false
-  }
 
   useEffect(() => {
     const cancelAuthListener = firebase
       .auth()
       .onIdTokenChanged(async (userToken: any) => {
+        console.log("render")
         if (userToken) {
           // verify email
           // if (!userToken.emailVerified) return
           const userData = await mapUserData(userToken)
-
           setUserCookie(userData)
           setUser(userData)
         } else {
@@ -45,8 +38,8 @@ const useUser = () => {
       })
 
     const userFromCookie = getUserFromCookie()
+    setUser(userFromCookie ?? null)
     if (!userFromCookie) return
-    setUser(userFromCookie)
     return () => {
       cancelAuthListener()
     }

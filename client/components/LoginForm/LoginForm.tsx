@@ -3,6 +3,7 @@ import React from "react"
 import { useLoginForm } from "./useLoginForm"
 export interface LoginFormProps {
   changeForm: React.MouseEventHandler
+  showError: Function
 }
 const LoginForm = (props: LoginFormProps) => {
   const {
@@ -14,7 +15,7 @@ const LoginForm = (props: LoginFormProps) => {
     handleSubmit,
     loading,
     loginMessage,
-  } = useLoginForm()
+  } = useLoginForm(props)
 
   return (
     <>

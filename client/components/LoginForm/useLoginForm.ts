@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
+import { LoginFormProps } from "./LoginForm"
 
-export const useLoginForm = () => {
+export const useLoginForm = (props: LoginFormProps) => {
   const emailInput = useRef<HTMLInputElement>(null)
   const pwdInput = useRef<HTMLInputElement>(null)
 
@@ -50,12 +51,12 @@ export const useLoginForm = () => {
       if (response.user) {
         // verify email
         // if (!response.user.emailVerified) {
-        //   setLoginMessage("Email is not verified. Please verify your email.")
+        //   props.showError("Email is not verified. Please verify your email.")
         //   return
         // }
       }
     } catch (e) {
-      setLoginMessage("Something must be wrong. Please try again.")
+      props.showError("Something must be wrong. Please try again.")
     } finally {
       setLoading(false)
     }

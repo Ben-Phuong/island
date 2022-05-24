@@ -113,7 +113,7 @@ export const CreateMailModal = (props: CreateMailModalProps) => {
                     <CheckIcon
                       width={20}
                       height={20}
-                      className="inline absolute ml-5 mt-1 h-20 w-20 text-white scale-150"
+                      className="inline absolute ml-5 mt-1 h-20 w-20 text-white"
                     />
                   ))}
               </button>

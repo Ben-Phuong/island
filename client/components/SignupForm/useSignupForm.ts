@@ -20,7 +20,7 @@ export const useSignupForm = (props: SignupFormProps) => {
       // @ts-ignore
       const form = event.target.form
       const index = Array.prototype.indexOf.call(form, event.target)
-      if (index < 1) {
+      if (index < 2) {
         form.elements[index + 1].focus()
         event.preventDefault()
       }
@@ -56,23 +56,20 @@ export const useSignupForm = (props: SignupFormProps) => {
       )
       setLoading(false)
       if (response.user) {
-        // const idToken = await response.user.getIdToken()
-        // requestSignUp({
-        //   idToken,
-        // })
         signupAsync({
           email: emailInput.current?.value,
           id: response.user.uid,
           username: nameInput.current?.value,
         })
-        response.user.sendEmailVerification()
-        setSignupMessage("Sign Up success! Please verify your email.")
+        // verify email
+        // response.user.sendEmailVerification()
+        // props.showError("Sign Up success! Please verify your email.")
       }
     } catch (e: any) {
-      setSignupMessage("Something must be wrong. Please try again.")
-      if (e.code === "auth/invalid-email") setSignupMessage("Invalid email.")
+      props.showError("Something must be wrong. Please try again.")
+      if (e.code === "auth/invalid-email") props.showError("Invalid email.")
       if (e.code === "auth/email-already-in-use")
-        setSignupMessage("Email already in use.")
+        props.showError("Email already in use.")
     } finally {
       setLoading(false)
     }
