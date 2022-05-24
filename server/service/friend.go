@@ -12,6 +12,7 @@ import (
 // FriendService
 type FriendService struct {
 	friendRepo repository.FriendRepository
+	mailRepo   repository.MailRepository
 	userRepo   repository.UserRepository
 }
 
@@ -19,10 +20,12 @@ type FriendService struct {
 func NewFriendService(
 	friendRepo repository.FriendRepository,
 	userRepo repository.UserRepository,
+	mailRepo repository.MailRepository,
 ) FriendService {
 	return FriendService{
 		friendRepo: friendRepo,
 		userRepo:   userRepo,
+		mailRepo:   mailRepo,
 	}
 }
 
@@ -34,6 +37,7 @@ func (s *FriendService) CreateFriendship(interaction *model.UpdateFriend) (*mode
 // GetAllFriends
 func (s *FriendService) GetAllFriends(userID string) ([]*entity.User, error) {
 	friends := []*entity.User{}
+	friendIDs := []string{}
 
 	// Get all the friendship userID has
 	if friendships, err := s.friendRepo.GetAll(userID); err != nil {
@@ -47,7 +51,17 @@ func (s *FriendService) GetAllFriends(userID string) ([]*entity.User, error) {
 				return nil, err
 			} else {
 				friends = append(friends, friend)
+				friendIDs = append(friendIDs, friend.ID)
 			}
+		}
+	}
+
+	getMail := model.GetReceivedMail{ToID: userID, FromIDs: friendIDs}
+	if mails, err := s.mailRepo.GetReceived(&getMail); err != nil {
+		return nil, err
+	} else {
+		for _, friend := range friends {
+			friend.LastMailTitle = mails.ReceivedMails[friend.ID][0].Title
 		}
 	}
 
