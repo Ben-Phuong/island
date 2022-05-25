@@ -1,10 +1,13 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { UnreadMail } from "../../type"
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
+import { getUserFromServerAsync } from "../../api/user"
+import { getUserFromCookie } from "../../auth/useCookie"
 
 export const useSideBar = () => {
   const [mailDetail, setMailDetail] = useState<UnreadMail>()
+  const [user, setUser] = useState<any>()
   const openMailDetail = (mail: UnreadMail) => () => {
     setMailDetail(mail)
   }
@@ -15,6 +18,17 @@ export const useSideBar = () => {
   const closeMailDetail = () => {
     setMailDetail(undefined)
   }
-
-  return { openMailDetail, mailDetail, closeMailDetail, addFriend }
+  useEffect(() => {
+    const userFromCookie = getUserFromCookie()
+    fetchUserAsync(userFromCookie)
+  }, [])
+  const fetchUserAsync = async (userFromCookie: any) => {
+    try {
+      const data = await getUserFromServerAsync(userFromCookie)
+      setUser(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  return { openMailDetail, mailDetail, closeMailDetail, addFriend, user }
 }

@@ -5,6 +5,9 @@ import PersonIcon from "@mui/icons-material/Person"
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera"
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
+import DefaultAvatar from "../../public/defaultAvatar.svg"
+import Image from "next/image"
+import { PrintRounded } from "@mui/icons-material"
 
 const settings = [
   { name: "Profile", icon: PersonIcon },
@@ -12,7 +15,7 @@ const settings = [
   { name: "Log out", icon: LogoutIcon },
 ]
 
-export const Avatar = () => {
+export const Avatar = (props: { avatarUrl?: string }) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
@@ -23,9 +26,10 @@ export const Avatar = () => {
 
   const handleCloseUserMenu = (setting: string) => {
     setAnchorElUser(null)
+    if (!setting) return
     if (setting === "Log out") {
       firebase.auth().signOut()
-    }
+    } else alert("In progress")
   }
   return (
     <div className="w-12 h-12">
@@ -35,7 +39,17 @@ export const Avatar = () => {
         className="rounded-full overflow-hidden hover:drop-shadow-xl hover:scale-125"
         onClick={handleOpenUserMenu}
       >
-        <img src="https://scontent.fsgn5-15.fna.fbcdn.net/v/t1.6435-1/65424285_2318650985054573_3720033838362001408_n.jpg?stp=dst-jpg_p100x100&_nc_cat=111&ccb=1-7&_nc_sid=7206a8&_nc_ohc=8hQwe0--lb4AX-MPvmT&_nc_oc=AQmZCdxL6sHpLH2o7LvxsbbYzGf2bvW6KLCKzGt-lpZIQlbr8qFkLwEslQJvBUDC1FY&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fsgn5-15.fna&oh=00_AT9_MTY02GIYvxIZn89lp5ZMaG1WYGfVCeDz5HvuuM1G3g&oe=62AD0E28" />
+        {props.avatarUrl !== undefined ? (
+          props.avatarUrl ? (
+            <img src={props.avatarUrl} />
+          ) : (
+            <div className="bg-white p-2 w-12 h-12">
+              <Image src={DefaultAvatar} />
+            </div>
+          )
+        ) : (
+          <div className="bg-slate-500/30 w-12 h-12 animate-pulse"></div>
+        )}
       </button>
       <Menu
         sx={{ mt: "45px" }}
@@ -51,12 +65,12 @@ export const Avatar = () => {
           horizontal: "left",
         }}
         open={Boolean(anchorElUser)}
-        onClose={handleCloseUserMenu}
+        onClose={() => handleCloseUserMenu("")}
       >
         {settings.map((setting) => (
           <MenuItem
             key={setting.name}
-            onClick={() => handleCloseUserMenu(setting.name)}
+            onClick={(event) => handleCloseUserMenu(setting.name)}
           >
             <setting.icon className="self-center mr-3" />
             <div className="text-center">{setting.name}</div>

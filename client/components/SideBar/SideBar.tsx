@@ -6,6 +6,8 @@ import { useSideBar } from "./useSideBar"
 import { Friend, Mail, UnreadMail } from "../../type"
 import MailDetailModal from "../MailDetailModal"
 import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import Image from "next/image"
+import IslandSvg from "../../public/island.svg"
 export interface SideBarProps {
   openFriendChat(friend: Friend): void
   openCreateModal: React.MouseEventHandler<HTMLButtonElement> | undefined
@@ -16,13 +18,18 @@ export interface SideBarProps {
   unreadMails: Array<UnreadMail> | undefined
 }
 export const SideBar = (props: SideBarProps) => {
-  const { openMailDetail, mailDetail, closeMailDetail, addFriend } =
+  const { openMailDetail, mailDetail, closeMailDetail, addFriend, user } =
     useSideBar()
   return (
     <div className="flex flex-1 flex-col">
-      <div className="flex-1 max-h-20 flex justify-between items-center px-7">
-        <Avatar />
-        <h1 className="font-mono text-3xl pointer-events-none">island</h1>
+      <div className="flex-1 max-h-28 flex justify-between items-center px-7">
+        <Avatar avatarUrl={user?.avatarUrl} />
+        <div className="flex flex-col items-center">
+          <div className="w-10 h-10">
+            <Image src={IslandSvg} className="w-7 h-7" />
+          </div>
+          <h1 className="font-mono text-3xl pointer-events-none">island</h1>
+        </div>
         <button
           title={
             props.mode !== "friend"

@@ -14,10 +14,12 @@ export const Conversation = (props: ConversationProps) => {
   return (
     <div className="flex flex-1 flex-col max-h-screen">
       <div className="flex flex-1 p-10">
-        <div className="flex-initial w-20 h-20 rounded-full overflow-hidden drop-shadow-2xl">
+        <div className="flex flex-initial w-20 h-20 rounded-full overflow-hidden drop-shadow-2xl">
           {props.selectedfriend?.avatarUrl ? (
             <img src={props.selectedfriend.avatarUrl} />
-          ) : null}
+          ) : (
+            <div className="flex-1 animate-pulse bg-slate-400"></div>
+          )}
         </div>
         <div className="flex flex-1 relative pl-3 pt-16">
           <div className="flex w-full h-fit overflow-x-scroll scrollbar absolute">

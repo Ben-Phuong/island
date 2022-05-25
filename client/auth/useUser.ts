@@ -24,7 +24,6 @@ const useUser = () => {
     const cancelAuthListener = firebase
       .auth()
       .onIdTokenChanged(async (userToken: any) => {
-        console.log("render")
         if (userToken) {
           // verify email
           // if (!userToken.emailVerified) return

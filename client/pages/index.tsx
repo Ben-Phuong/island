@@ -15,8 +15,8 @@ const THRESHOLD = 0.9
 const TextToxicity = require("@tensorflow-models/toxicity")
 
 const Island: NextPage = (props) => {
-  // const user = useUser()
-  const [user1, setUser1] = useState(props.user)
+  //@ts-ignore
+  const [user, setUser] = useState(props.user)
   const [toxicModel, setToxicModel] = useState<any>()
   // load text toxicity model
   useEffect(() => {
@@ -36,10 +36,10 @@ const Island: NextPage = (props) => {
           idToken,
         }
         setUserCookie(userData)
-        setUser1(userData)
+        setUser(userData)
       } else {
         removeUserCookie()
-        setUser1(null)
+        setUser(null)
       }
     })
   }, [])
@@ -63,7 +63,7 @@ const Island: NextPage = (props) => {
         // ) : (
         //   <Auth />
         // )
-        user1 ? <Home toxicModel={toxicModel} /> : <Auth />
+        user ? <Home toxicModel={toxicModel} /> : <Auth />
       }
     </div>
   )
