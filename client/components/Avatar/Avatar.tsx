@@ -36,19 +36,19 @@ export const Avatar = (props: { avatarUrl?: string }) => {
       <button
         title="Open settings"
         type="button"
-        className="rounded-full overflow-hidden hover:drop-shadow-xl hover:scale-125"
+        className={
+          props.avatarUrl !== undefined
+            ? "rounded-full overflow-hidden hover:drop-shadow-xl hover:scale-125"
+            : "rounded-full overflow-hidden hover:drop-shadow-xl hover:scale-125 animate-pulse pointer-events-none bg-slate-500/30 w-full h-full"
+        }
         onClick={handleOpenUserMenu}
       >
-        {props.avatarUrl !== undefined ? (
-          props.avatarUrl ? (
-            <img src={props.avatarUrl} />
-          ) : (
-            <div className="bg-white p-2 w-12 h-12">
-              <Image src={DefaultAvatar} />
-            </div>
-          )
+        {props.avatarUrl ? (
+          <img src={props.avatarUrl} />
         ) : (
-          <div className="bg-slate-500/30 w-12 h-12 animate-pulse"></div>
+          <div className="bg-white p-2 w-12 h-12">
+            <Image src={DefaultAvatar} />
+          </div>
         )}
       </button>
       <Menu

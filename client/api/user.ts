@@ -1,6 +1,7 @@
 import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
-const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + "user"
+import { getUserFromCookie } from "../auth/useCookie"
+const endpoint = process.env.NEXT_PUBLIC_API_ENDPOINT + "/user"
 // const endpoint = "http://localhost:8000/api/user"
 
 export const signupAsync = async (data: any) => {
@@ -22,13 +23,14 @@ export const signupAsync = async (data: any) => {
     return { error: "Something must be wrong. Please try again" }
   }
 }
-export const getUserFromServerAsync = async (data: any) => {
+export const getUserFromServerAsync = async () => {
   try {
-    const response = await fetch(`${endpoint}?userId=${data.uid}`, {
+    const user = getUserFromCookie()
+    const response = await fetch(`${endpoint}?userId=${user.uid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${data.idToken}`,
+        Authorization: `Bearer ${user.idToken}`,
       },
       mode: "cors",
     })

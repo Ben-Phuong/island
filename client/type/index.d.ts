@@ -1,4 +1,5 @@
 export interface Friend {
+  id: string
   avatarUrl: string | null | undefined
   username: string
   latestTitle: string | null | undefined
@@ -11,6 +12,8 @@ export interface Mail {
   receiverId: string
   senderId: string
   title: string
+  senderUsername: string
+  receiverUsername: string
 }
 export interface UnreadMail {
   avatarUrl: string | null | undefined
@@ -21,4 +24,6 @@ export interface UnreadMail {
   receiverId: string
   senderId: string
   title: string
+  senderUsername: string
+  receiverUsername: string
 }

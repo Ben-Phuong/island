@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { UnreadMail } from "../../type"
-import firebase from "firebase/compat/app"
 import "firebase/compat/auth"
 import { getUserFromServerAsync } from "../../api/user"
-import { getUserFromCookie } from "../../auth/useCookie"
+import { makeFriendListAsync } from "../../api/friend"
 
 export const useSideBar = () => {
   const [mailDetail, setMailDetail] = useState<UnreadMail>()
@@ -11,20 +10,23 @@ export const useSideBar = () => {
   const openMailDetail = (mail: UnreadMail) => () => {
     setMailDetail(mail)
   }
-  const addFriend = (mail: UnreadMail) => (e: React.MouseEvent) => {
+  const addFriend = (mail: UnreadMail) => async (e: React.MouseEvent) => {
     e.stopPropagation()
-    console.log("add friend", mail.senderId, mail.receiverId)
+    try {
+      const data = await makeFriendListAsync({ friendId: mail.senderId })
+    } catch (error) {
+      console.log(error)
+    }
   }
   const closeMailDetail = () => {
     setMailDetail(undefined)
   }
   useEffect(() => {
-    const userFromCookie = getUserFromCookie()
-    fetchUserAsync(userFromCookie)
+    fetchUserAsync()
   }, [])
-  const fetchUserAsync = async (userFromCookie: any) => {
+  const fetchUserAsync = async () => {
     try {
-      const data = await getUserFromServerAsync(userFromCookie)
+      const data = await getUserFromServerAsync()
       setUser(data)
     } catch (error) {
       console.log(error)

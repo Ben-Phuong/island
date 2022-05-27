@@ -2,7 +2,8 @@ import { Friend, Mail } from "../../type"
 import MailDetailModal from "../MailDetailModal"
 import MailPost from "../MailPost"
 import { useConversation } from "./useConversation"
-
+import DefaultAvatar from "../../public/defaultAvatar.svg"
+import Image from "next/image"
 export interface ConversationProps {
   selectedfriend: Friend | undefined
   receivedMails: Array<Mail> | undefined
@@ -15,8 +16,14 @@ export const Conversation = (props: ConversationProps) => {
     <div className="flex flex-1 flex-col max-h-screen">
       <div className="flex flex-1 p-10">
         <div className="flex flex-initial w-20 h-20 rounded-full overflow-hidden drop-shadow-2xl">
-          {props.selectedfriend?.avatarUrl ? (
-            <img src={props.selectedfriend.avatarUrl} />
+          {props.selectedfriend ? (
+            props.selectedfriend.avatarUrl ? (
+              <img src={props.selectedfriend.avatarUrl} />
+            ) : (
+              <div className="bg-white p-3 w-full h-full">
+                <Image src={DefaultAvatar} />
+              </div>
+            )
           ) : (
             <div className="flex-1 animate-pulse bg-slate-400"></div>
           )}

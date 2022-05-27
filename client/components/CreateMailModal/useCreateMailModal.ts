@@ -1,12 +1,12 @@
 import React, { useRef, useCallback, useState, useEffect } from "react"
 import TextToxicity from "@tensorflow-models/toxicity"
+import { sendMailAsync, validateMailAsync } from "../../api/mail"
 
-export const useCreateMailModal = (
-  toxicModel: TextToxicity.ToxicityClassifier | undefined
-) => {
+export const useCreateMailModal = (to: string) => {
   const titleInput = useRef<HTMLInputElement>(null)
   const contentInput = useRef<HTMLTextAreaElement>(null)
   const [loading, setLoading] = useState<string>("")
+  const [error, setError] = useState<string>()
 
   const handleLongEmail = (email: string) => {
     if (email.length < 30) return email
@@ -14,22 +14,32 @@ export const useCreateMailModal = (
   }
   const handleSubmitAsync = async (event: React.FormEvent) => {
     event.preventDefault()
-    if (toxicModel === undefined) {
-      console.log("model not ready")
-      // showError()
-      return
-    }
     setLoading("loading")
+    setError("")
     try {
-      const predictions = await toxicModel.classify([
-        contentInput.current?.value ?? "",
-        titleInput.current?.value ?? "",
-      ])
-      console.log("predictions", predictions)
+      const validation = await validateMailAsync({
+        content: contentInput.current?.value ?? "",
+        title: titleInput.current?.value ?? "",
+      })
+      if (validation.status === "failed") {
+        setLoading("")
+        setError(validation.message)
+        return
+      }
+
+      const response = await sendMailAsync(
+        {
+          content: contentInput.current?.value ?? "",
+          title: titleInput.current?.value ?? "",
+        },
+        to === "random" ? undefined : to
+      )
+      const responseError = response?.error || response?.message
+      setError(responseError)
+      setLoading(responseError ? "" : "done")
     } catch (error) {
       console.log(error)
-    } finally {
-      setLoading("done")
+      setLoading("")
     }
   }
   const handleEnter: React.KeyboardEventHandler = useCallback((event) => {
@@ -43,7 +53,6 @@ export const useCreateMailModal = (
       }
     }
   }, [])
-
   return {
     titleInput,
     contentInput,
@@ -51,5 +60,6 @@ export const useCreateMailModal = (
     handleSubmitAsync,
     handleEnter,
     loading,
+    error,
   }
 }

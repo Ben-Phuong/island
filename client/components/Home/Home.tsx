@@ -4,12 +4,8 @@ import CreateMailModal from "../CreateMailModal"
 import FloatingSendButton from "../FloatingSendButton"
 import SideBar from "../SideBar"
 import { useHome } from "./useHome"
-import TextToxicity from "@tensorflow-models/toxicity"
 
-export interface HomeProps {
-  toxicModel: TextToxicity.ToxicityClassifier | undefined
-}
-export const Home = (props: HomeProps) => {
+export const Home = () => {
   const {
     modal,
     openCreateFriendModal,
@@ -58,7 +54,6 @@ export const Home = (props: HomeProps) => {
             closeModal={closeCreateModal}
             to={modal}
             friend={selectedFriend}
-            toxicModel={props.toxicModel}
           />
         )}
       </div>

@@ -11,15 +11,17 @@ export const SideBarItem = (props: SideBarItemProps) => {
     <button
       type="button"
       onClick={props.onClick}
-      className="flex relative group items-center justify-end"
+      className={
+        props.friend
+          ? "flex relative group items-center justify-end"
+          : "flex relative group items-center justify-end animate-pulse pointer-events-none"
+      }
     >
       <div
         className={
-          props.friend
-            ? props.isSelectedFriend
-              ? "flex flex-none w-full h-32 rounded-xl bg-blue-500/50 mb-1 items-center"
-              : "flex flex-none w-full h-32 rounded-xl group-hover:bg-sky-300/30 mb-1 items-center"
-            : "flex flex-none w-full h-32 rounded-xl bg-blue-500/50 mb-1 items-center animate-pulse"
+          props.isSelectedFriend
+            ? "flex flex-none w-full h-32 rounded-xl bg-blue-500/50 mb-1 items-center"
+            : "flex flex-none w-full h-32 rounded-xl group-hover:bg-sky-300/30 mb-1 items-center"
         }
       >
         <div className={"h-20 w-20 rounded-full overflow-hidden m-3"}>

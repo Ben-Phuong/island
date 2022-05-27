@@ -82,7 +82,8 @@ export const SideBar = (props: SideBarProps) => {
             <SideBarItem
               key={key}
               friend={{
-                username: mail.senderId,
+                id: mail.senderId,
+                username: mail.senderUsername,
                 avatarUrl: mail.avatarUrl,
                 latestTitle: mail.title,
               }}
