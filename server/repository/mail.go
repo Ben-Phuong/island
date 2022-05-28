@@ -84,7 +84,7 @@ func (r *MailRepository) CreateMany(mails *[]*entity.Mail) (*[]*entity.Mail, err
 func (r *MailRepository) GetSent(request *model.GetSentMail) (*model.GetSentMailResponse, error) {
 	ctx := context.Background()
 
-	response := model.GetSentMailResponse{}
+	response := model.GetSentMailResponse{FromID: request.FromID, SentMails: map[string][]*entity.Mail{}}
 	response.FromID = request.FromID
 	for _, toID := range request.ToIDs {
 		response.SentMails[toID] = []*entity.Mail{}
@@ -126,10 +126,11 @@ func (r *MailRepository) GetSent(request *model.GetSentMail) (*model.GetSentMail
 func (r *MailRepository) GetReceived(request *model.GetReceivedMail) (*model.GetReceivedMailResponse, error) {
 	ctx := context.Background()
 
-	response := model.GetReceivedMailResponse{}
+	response := model.GetReceivedMailResponse{ToID: request.ToID, ReceivedMails: map[string][]*entity.Mail{}}
 	response.ToID = request.ToID
 	for _, fromID := range request.FromIDs {
 		response.ReceivedMails[fromID] = []*entity.Mail{}
+
 		iter := r.fbase.FStore.Collection(mailCollection).Doc(request.ToID).Collection(fromID).Documents(ctx)
 		for {
 			doc, err := iter.Next()
