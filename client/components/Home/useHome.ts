@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import { getFriendListAsync } from "../../api/friend"
 import { getFriendsMailsAsync, getUnreadMailsAsync } from "../../api/mail"
+import { getUserFromCookie } from "../../auth/useCookie"
 import { Friend, Mail, UnreadMail } from "../../type"
 
 export const useHome = () => {
@@ -23,6 +24,7 @@ export const useHome = () => {
   }
   const closeCreateModal = () => {
     setModal("")
+    fetchFriendsMailsAsync()
   }
   const openFriendChat = (friend: Friend) => {
     setSelectedFriend(friend)
@@ -32,7 +34,6 @@ export const useHome = () => {
     if (mode === "friend") setMode("stranger")
     else setMode("friend")
   }
-
   // update received and sent when selected new user
   useEffect(() => {
     if (!selectedFriend) return
@@ -68,6 +69,10 @@ export const useHome = () => {
         return
       }
       setFriendsMails({ received: data.receivedMails, sent: data.sentMails })
+      // update selected friend mails data
+      if (!selectedFriend) return
+      setReceivedMails(data.receivedMails[selectedFriend.id] ?? [])
+      setSentMails(data.sentMails[selectedFriend.id] ?? [])
     } catch (error) {
       console.log(error)
     }
@@ -78,11 +83,23 @@ export const useHome = () => {
       showError(data.error)
       return
     }
-
-    setUnreadMails(data.unreadMails)
+    const result = await handleUnreadMails(data.unreadMails)
+    setUnreadMails(result)
   }
-  const handleUnreadMails = (mails: any) => {
+  const handleUnreadMails = async (mails: any) => {
+    const unsortMails = []
+    const user = getUserFromCookie()
+    for (const key in mails) {
+      if (key !== user.uid) unsortMails.push(...mails[key])
+    }
+
+    unsortMails.sort((a, b) => {
+      //@ts-ignore
+      return new Date(a.arrivalTime) - new Date(b.arrivalTime)
+    })
     // const
+
+    return unsortMails
   }
   const showError = (error: string) => {}
   return {

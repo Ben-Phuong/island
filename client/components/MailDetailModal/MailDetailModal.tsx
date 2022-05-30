@@ -1,9 +1,11 @@
 import CloseIcon from "@mui/icons-material/Close"
-import { Mail } from "../../type"
+import { getUserFromCookie } from "../../auth/useCookie"
+import { Friend, Mail } from "../../type"
 
 export interface MailDetailModalProps {
   mail: Mail
   closeModal: React.MouseEventHandler
+  friend?: Friend
 }
 export const MailDetailModal = (props: MailDetailModalProps) => {
   return (
@@ -26,11 +28,11 @@ export const MailDetailModal = (props: MailDetailModalProps) => {
             <span className="flex flex-1 h-fit self-end pointer-events-none text-gray-500 text-xl font-mono font-thin">
               <span>From</span>
               <span className="font-medium text-blue-900 ml-1 font-mono text-xl hover:font-bold">
-                {props.mail.senderId}
+                {props.friend?.username}
               </span>
               <span className="ml-2">To</span>
               <span className="font-medium text-blue-900 ml-1 font-mono text-xl hover:font-bold">
-                {props.mail.receiverId}
+                {getUserFromCookie().username}
               </span>
             </span>
           </div>

@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useState, useEffect } from "react"
 import TextToxicity from "@tensorflow-models/toxicity"
 import { sendMailAsync, validateMailAsync } from "../../api/mail"
 
-export const useCreateMailModal = (to: string) => {
+export const useCreateMailModal = (friendId: string | undefined) => {
   const titleInput = useRef<HTMLInputElement>(null)
   const contentInput = useRef<HTMLTextAreaElement>(null)
   const [loading, setLoading] = useState<string>("")
@@ -17,22 +17,21 @@ export const useCreateMailModal = (to: string) => {
     setLoading("loading")
     setError("")
     try {
-      const validation = await validateMailAsync({
-        content: contentInput.current?.value ?? "",
-        title: titleInput.current?.value ?? "",
-      })
-      if (validation.status === "failed") {
-        setLoading("")
-        setError(validation.message)
-        return
-      }
-
+      // const validation = await validateMailAsync({
+      //   content: contentInput.current?.value ?? "",
+      //   title: titleInput.current?.value ?? "",
+      // })
+      // if (validation.status === "failed") {
+      //   setLoading("")
+      //   setError(validation.message)
+      //   return
+      // }
       const response = await sendMailAsync(
         {
           content: contentInput.current?.value ?? "",
           title: titleInput.current?.value ?? "",
         },
-        to === "random" ? undefined : to
+        friendId ? friendId : undefined
       )
       const responseError = response?.error || response?.message
       setError(responseError)

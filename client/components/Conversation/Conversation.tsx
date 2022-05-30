@@ -63,7 +63,11 @@ export const Conversation = (props: ConversationProps) => {
         </div>
       </div>
       {selectedMail && (
-        <MailDetailModal closeModal={closeDetailModal} mail={selectedMail} />
+        <MailDetailModal
+          closeModal={closeDetailModal}
+          mail={selectedMail}
+          friend={props.selectedfriend}
+        />
       )}
     </div>
   )

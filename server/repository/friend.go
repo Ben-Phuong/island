@@ -41,8 +41,8 @@ func (r *FriendRepository) Create(interaction *model.UpdateFriend) (*model.Updat
 			return err
 		}
 
-		ref1 = r.fbase.FStore.Collection(friendCollection).Doc(interaction.UserID1)
-		ref2 = r.fbase.FStore.Collection(friendCollection).Doc(interaction.UserID2)
+		ref1 = r.fbase.FStore.Collection(friendCollection).Doc(interaction.UserID1).Collection(defaultSubcollection).Doc(interaction.UserID2)
+		ref2 = r.fbase.FStore.Collection(friendCollection).Doc(interaction.UserID2).Collection(defaultSubcollection).Doc(interaction.UserID1)
 
 		// Check if the friendship is already existed
 		if _, err := tx.Get(ref1); err == nil {
@@ -81,8 +81,9 @@ func (r *FriendRepository) UpdateInteraction(interaction *model.UpdateFriend) (*
 	ctx := context.Background()
 
 	err := r.fbase.FStore.RunTransaction(ctx, func(ctx context.Context, tx *firestore.Transaction) error {
-		ref1 := r.fbase.FStore.Collection(friendCollection).Doc(interaction.UserID1)
-		ref2 := r.fbase.FStore.Collection(friendCollection).Doc(interaction.UserID2)
+		ref1 := r.fbase.FStore.Collection(friendCollection).Doc(interaction.UserID1).Collection(defaultSubcollection).Doc(interaction.UserID2)
+		ref2 := r.fbase.FStore.Collection(friendCollection).Doc(interaction.UserID2).Collection(defaultSubcollection).Doc(interaction.UserID1)
+		log.Println("REF: ", ref1, ref2)
 
 		// Check if the friendship is already existed
 		if _, err := tx.Get(ref1); err != nil {

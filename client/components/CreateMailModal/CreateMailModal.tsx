@@ -18,7 +18,7 @@ export const CreateMailModal = (props: CreateMailModalProps) => {
     handleEnter,
     loading,
     error,
-  } = useCreateMailModal(props.to)
+  } = useCreateMailModal(props.to === "friend" ? props.friend?.id : undefined)
   return (
     <div
       className="flex justify-center items-center absolute w-screen h-screen bg-black/30 top-0 left-0"

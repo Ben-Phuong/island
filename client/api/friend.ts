@@ -23,7 +23,7 @@ export const getFriendListAsync = async () => {
     return { error: "Something must be wrong. Please try again" }
   }
 }
-export const makeFriendListAsync = async (data: any) => {
+export const makeFriendAsync = async (data: any) => {
   try {
     const user = getUserFromCookie()
 

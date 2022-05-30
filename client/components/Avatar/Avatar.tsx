@@ -8,6 +8,7 @@ import "firebase/compat/auth"
 import DefaultAvatar from "../../public/defaultAvatar.svg"
 import Image from "next/image"
 import { PrintRounded } from "@mui/icons-material"
+import { getUserFromCookie } from "../../auth/useCookie"
 
 const settings = [
   { name: "Profile", icon: PersonIcon },
@@ -15,7 +16,7 @@ const settings = [
   { name: "Log out", icon: LogoutIcon },
 ]
 
-export const Avatar = (props: { avatarUrl?: string }) => {
+export const Avatar = (props: { avatarUrl?: string; username: string }) => {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
     null
   )
@@ -67,6 +68,11 @@ export const Avatar = (props: { avatarUrl?: string }) => {
         open={Boolean(anchorElUser)}
         onClose={() => handleCloseUserMenu("")}
       >
+        <MenuItem className="pointer-events-none">
+          <span className="text-sm pointer-events-none w-36 text-ellipsis overflow-hidden whitespace-nowrap text-center font-semibold">
+            {props.username}
+          </span>
+        </MenuItem>
         {settings.map((setting) => (
           <MenuItem
             key={setting.name}

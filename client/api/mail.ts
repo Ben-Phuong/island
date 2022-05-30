@@ -56,7 +56,6 @@ export const validateMailAsync = async (data: {
 export const sendMailAsync: any = async (data: any, to?: string) => {
   try {
     const user = getUserFromCookie()
-    console.log("to", to)
     const fetchSentMails = fetch(`${endpoint}/${to ? "" : "random_"}mail`, {
       method: "POST",
       body: JSON.stringify({
@@ -89,8 +88,7 @@ export const getUnreadMailsAsync = async () => {
       }
     )
     const dataJSON = await response.json()
-    console.log("unread", dataJSON)
-    return { unreadMails: dataJSON }
+    return { unreadMails: dataJSON.receivedMails }
   } catch (error) {
     return { error: "Something must be wrong. Please try again" }
   }

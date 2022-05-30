@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { UnreadMail } from "../../type"
 import "firebase/compat/auth"
 import { getUserFromServerAsync } from "../../api/user"
-import { makeFriendListAsync } from "../../api/friend"
+import { makeFriendAsync } from "../../api/friend"
 
 export const useSideBar = () => {
   const [mailDetail, setMailDetail] = useState<UnreadMail>()
@@ -13,7 +13,7 @@ export const useSideBar = () => {
   const addFriend = (mail: UnreadMail) => async (e: React.MouseEvent) => {
     e.stopPropagation()
     try {
-      const data = await makeFriendListAsync({ friendId: mail.senderId })
+      const data = await makeFriendAsync({ friendId: mail.senderId })
     } catch (error) {
       console.log(error)
     }

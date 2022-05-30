@@ -23,7 +23,7 @@ export const SideBar = (props: SideBarProps) => {
   return (
     <div className="flex flex-1 flex-col">
       <div className="flex-1 max-h-28 flex justify-between items-center px-7">
-        <Avatar avatarUrl={user?.avatarUrl} />
+        <Avatar {...user} />
         <div className="flex flex-col items-center">
           <div className="w-10 h-10">
             <Image src={IslandSvg} className="w-7 h-7" />
@@ -102,7 +102,11 @@ export const SideBar = (props: SideBarProps) => {
         )}
       </div>
       {mailDetail ? (
-        <MailDetailModal closeModal={closeMailDetail} mail={mailDetail} />
+        <MailDetailModal
+          closeModal={closeMailDetail}
+          mail={mailDetail}
+          friend={props.selectedFriend}
+        />
       ) : null}
     </div>
   )
