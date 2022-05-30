@@ -20,13 +20,13 @@ export const SideBarItem = (props: SideBarItemProps) => {
       <div
         className={
           props.isSelectedFriend
-            ? "flex flex-none w-full h-32 rounded-xl bg-blue-500/50 mb-1 items-center"
-            : "flex flex-none w-full h-32 rounded-xl group-hover:bg-sky-300/30 mb-1 items-center"
+            ? "flex flex-none w-full h-32 rounded-xl bg-gradient-to-r from-sky-100 to-blue-100/50 mb-1 items-center"
+            : "flex flex-none w-full h-32 rounded-xl group-hover:bg-gradient-to-r from-sky-500/50 to-blue-500/50 mb-1 items-center"
         }
       >
-        <div className={"h-20 w-20 rounded-full overflow-hidden m-3"}>
-          {props.friend?.avatarUrl ? (
-            <img src={props.friend.avatarUrl} />
+        <div className="h-20 w-20 rounded-full overflow-hidden m-3 bg-slate-50">
+          {props.friend ? (
+            <img src={props.friend.avatarUrl || "/defaultAvatar.svg"} />
           ) : (
             <div className="bg-blue-300 h-full w-full"></div>
           )}

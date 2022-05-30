@@ -20,7 +20,7 @@ export const useAuthenticationForm = () => {
       setTimeout(() => {
         setAuthentication((auth) => (auth === "signup" ? "login" : "signup"))
         setTransition(ZOOM_OUT)
-      }, 600)
+      }, 300)
   }, [transition])
   const closeSignupForm = () => {
     setAuthentication("login")

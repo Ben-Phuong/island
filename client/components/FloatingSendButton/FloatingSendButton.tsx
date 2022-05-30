@@ -11,7 +11,7 @@ export const FloatingSendButton = (props: FloatingSendButtonProps) => {
         title="Send new mail to friend"
         type="button"
         onClick={props.openCreateModal}
-        className="bg-slate-400/50 rounded-full drop-shadow-2xl p-1.5"
+        className="bg-slate-100/30 rounded-full drop-shadow-3xl p-1.5 backdrop-blur-md"
       >
         <SendIcon className="text-4xl m-2 text-blue-900 animate-pulse w-14 h-14 hover:scale-110" />
       </button>

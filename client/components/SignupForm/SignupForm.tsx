@@ -22,17 +22,19 @@ const SignupForm = (props: SignupFormProps) => {
   } = useSignupForm(props)
   return (
     <>
-      <h1 className="font-sans font-bold text-3xl pb-14">
+      <h1 className="font-sans font-bold text-5xl pb-14 mx-5 mt-5 text-black/60 pointer-events-none">
         Create your Account
       </h1>
       <form onSubmit={handleSubmit} noValidate className="block px-3">
         <label className="block">
-          <span className="text-xl font-medium font-sans">Display Name</span>
+          <span className="text-xl font-medium font-sans text-black/60">
+            Display Name
+          </span>
           <input
             className={
               nameError
-                ? "block w-full mt-5 border-2 px-5 py-4 shadow rounded-xl max-w-xl text-xl font-sans border-red-600 outline-red-600"
-                : "block w-full mt-5 border-2 px-5 py-4 shadow rounded-xl max-w-xl text-xl font-sans hover:border-blue-700 focus:outline-blue-500"
+                ? "block w-full mt-5 border-2 px-5 py-4 rounded-xl max-w-xl text-xl font-sans outline-none border-red-600 bg-white/40 "
+                : "block w-full mt-5 border-2 px-5 py-4 rounded-xl max-w-xl text-xl font-sans outline-none border-transparent hover:border-blue-500 bg-white/40"
             }
             placeholder="Display name"
             type="email"
@@ -44,12 +46,14 @@ const SignupForm = (props: SignupFormProps) => {
           </span>
         </label>
         <label className="block">
-          <span className="text-xl font-medium font-sans">Email Address</span>
+          <span className="text-xl font-medium font-sans text-black/60">
+            Email Address
+          </span>
           <input
             className={
               emailError
-                ? "block w-full mt-5 border-2 px-5 py-4 shadow rounded-xl max-w-xl text-xl font-sans border-red-600 outline-red-600"
-                : "block w-full mt-5 border-2 px-5 py-4 shadow rounded-xl max-w-xl text-xl font-sans hover:border-blue-700 focus:outline-blue-500"
+                ? "block w-full mt-5 border-2 px-5 py-4 rounded-xl max-w-xl text-xl font-sans outline-none border-red-600 bg-white/40 "
+                : "block w-full mt-5 border-2 px-5 py-4 rounded-xl max-w-xl text-xl font-sans outline-none border-transparent hover:border-blue-500 bg-white/40"
             }
             placeholder="name@domain.com"
             type="email"
@@ -61,12 +65,14 @@ const SignupForm = (props: SignupFormProps) => {
           </span>
         </label>
         <label className="block">
-          <span className="text-xl font-medium font-sans">Password</span>
+          <span className="text-xl font-medium font-sans text-black/60">
+            Password
+          </span>
           <input
             className={
               pwdError
-                ? "block w-full mt-5 border-2 px-5 py-4 shadow rounded-xl max-w-xl text-xl font-sans border-red-600 outline-red-600"
-                : "block w-full mt-5 border-2 px-5 py-4 shadow rounded-xl max-w-xl text-xl font-sans hover:border-blue-700 focus:outline-blue-500"
+                ? "block w-full mt-5 border-2 px-5 py-4 rounded-xl max-w-xl text-xl font-sans outline-none border-red-600 bg-white/40 "
+                : "block w-full mt-5 border-2 px-5 py-4 rounded-xl max-w-xl text-xl font-sans outline-none border-transparent hover:border-blue-500 bg-white/40"
             }
             placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
             type="password"
@@ -81,7 +87,7 @@ const SignupForm = (props: SignupFormProps) => {
           <button
             disabled={loading}
             type="submit"
-            className="block relative mt-16 px-5 py-4 rounded-xl w-full max-w-xl bg-blue-600 hover:bg-blue-800 text-white text-3xl disabled:bg-blue-600"
+            className="block relative mt-16 px-5 py-4 rounded-xl w-full max-w-xl bg-gradient-to-r from-blue-500 to-blue-700 text-white text-3xl hover:opacity-70 disabled:bg-blue-600"
           >
             <span className="content-center">Sign Up</span>
             {loading && (
@@ -113,9 +119,9 @@ const SignupForm = (props: SignupFormProps) => {
         </label>
       </form>
       <div className="px-3 my-5">
-        {"Have an account? "}
+        <span className="pointer-events-none">{"Have an account? "}</span>
         <button onClick={props.changeForm} type="button">
-          <span className="text-right text-blue-600 font-bold hover:text-blue-900">
+          <span className="text-right text-blue-600/80 font-bold hover:text-blue-900/80">
             Log in
           </span>
         </button>

@@ -21,14 +21,11 @@ export const SideBar = (props: SideBarProps) => {
   const { openMailDetail, mailDetail, closeMailDetail, addFriend, user } =
     useSideBar()
   return (
-    <div className="flex flex-1 flex-col">
+    <div className="flex flex-1 flex-col backdrop-blur-3xl bg-gradient-to-b to-cyan-100/50 from-blue-500/30">
       <div className="flex-1 max-h-28 flex justify-between items-center px-7">
         <Avatar {...user} />
         <div className="flex flex-col items-center">
-          <div className="w-10 h-10">
-            <Image src={IslandSvg} className="w-7 h-7" />
-          </div>
-          <h1 className="font-mono text-3xl pointer-events-none">island</h1>
+          <Image src={IslandSvg} width={80} height={80} />
         </div>
         <button
           title={
@@ -40,7 +37,7 @@ export const SideBar = (props: SideBarProps) => {
           type="button"
           onClick={props.switchMode}
         >
-          <NotificationsIcon className="text-sky-300 group-hover:text-sky-700 text-5xl" />
+          <NotificationsIcon className="text-sky-700 group-hover:text-sky-700/50 text-5xl" />
           <span className="flex absolute h-3 w-3 top-2 right-1.5 -mt-1 -mr-1">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>{" "}
             <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
@@ -60,7 +57,7 @@ export const SideBar = (props: SideBarProps) => {
         <button
           type="button"
           onClick={props.openCreateModal}
-          className="flex-1 bg-blue-800/80 rounded-3xl font-mono text-white text-3xl hover:bg-blue-800"
+          className="flex-1 rounded-3xl font-mono text-white text-3xl hover:border-2 border-white/70 bg-gradient-to-r from-sky-500/90 to-indigo-500/90"
         >
           Send Random
         </button>

@@ -16,11 +16,11 @@ export const MailPost = (props: MailPostProps) => {
       <div
         className={
           props.mail
-            ? "flex flex-none h-64 w-64 bg-blue-500/50 rounded-xl mr-3 border-blue-500/50 border-2 hover:border-blue-700 "
-            : "flex flex-none h-64 w-64 bg-blue-500/50 rounded-xl mr-3 border-blue-500/50 border-2 hover:border-blue-700  animate-pulse"
+            ? "flex flex-none h-64 w-64 rounded-xl mr-3 border-2 border-transparent hover:border-blue-700/50 overflow-hidden"
+            : "flex flex-none h-64 w-64 bg-blue-500/50 rounded-xl mr-3 animate-pulse"
         }
       >
-        <div className="flex relative flex-1 flex-col py-3 items-center">
+        <div className="flex relative flex-1 flex-col py-3 items-center bg-gradient-to-r from-sky-300/80 to-blue-700/50 backdrop-blur-xl">
           <span className="flex-none h-8 w-60 px-1 font-sans font-medium overflow-hidden text-ellipsis align-middle text-2xl text-black/60 text-left whitespace-nowrap">
             {props.mail?.title}
           </span>

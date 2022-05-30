@@ -47,12 +47,13 @@ export const Avatar = (props: { avatarUrl?: string; username: string }) => {
         {props.avatarUrl ? (
           <img src={props.avatarUrl} />
         ) : (
-          <div className="bg-white p-2 w-12 h-12">
+          <div className="bg-white/90 backdrop-blur-xl p-2 w-12 h-12">
             <Image src={DefaultAvatar} />
           </div>
         )}
       </button>
       <Menu
+        classes={{ paper: "bg-white/50 backdrop-blur-3xl" }}
         sx={{ mt: "45px" }}
         id="menu-appbar"
         anchorEl={anchorElUser}

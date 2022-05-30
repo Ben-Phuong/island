@@ -4,13 +4,14 @@ import { Friend, Mail } from "../../type"
 
 export interface MailDetailModalProps {
   mail: Mail
+  type: string
   closeModal: React.MouseEventHandler
   friend?: Friend
 }
 export const MailDetailModal = (props: MailDetailModalProps) => {
   return (
     <div
-      className="flex justify-center items-center absolute w-screen h-screen bg-black/30 top-0 left-0 z-10"
+      className="flex justify-center items-center absolute w-screen h-screen bg-black/10 backdrop-blur-sm top-0 left-0 z-10"
       onClick={props.closeModal}
     >
       <div
@@ -21,19 +22,19 @@ export const MailDetailModal = (props: MailDetailModalProps) => {
           <div>
             <span className="flex flex-1 h-fit self-end pointer-events-none text-gray-500 text-sm">
               At
-              <span className="font-medium text-blue-900 ml-1">
+              <span className="font-medium text-blue-900 ml-2">
                 {props.mail.arrivalTime}
               </span>
             </span>
             <span className="flex flex-1 h-fit self-end pointer-events-none text-gray-500 text-xl font-mono font-thin">
-              <span>From</span>
-              <span className="font-medium text-blue-900 ml-1 font-mono text-xl hover:font-bold">
+              <span>{props.type}</span>
+              <span className="font-medium text-blue-900 ml-2 font-mono text-xl hover:font-bold">
                 {props.friend?.username}
               </span>
-              <span className="ml-2">To</span>
+              {/* <span className="ml-2">To</span>
               <span className="font-medium text-blue-900 ml-1 font-mono text-xl hover:font-bold">
                 {getUserFromCookie().username}
-              </span>
+              </span> */}
             </span>
           </div>
           <button

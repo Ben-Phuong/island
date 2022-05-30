@@ -21,11 +21,11 @@ export const CreateMailModal = (props: CreateMailModalProps) => {
   } = useCreateMailModal(props.to === "friend" ? props.friend?.id : undefined)
   return (
     <div
-      className="flex justify-center items-center absolute w-screen h-screen bg-black/30 top-0 left-0"
+      className="flex justify-center items-center absolute w-screen h-screen bg-black/10 backdrop-blur-sm top-0 left-0"
       onClick={props.closeModal}
     >
       <div
-        className="flex flex-col rounded-xl relative h-96 sm:w-1/3 sm:h-2/3 bg-gray-700 pt-5 w-96"
+        className="flex flex-col rounded-xl relative h-96 sm:w-1/3 sm:h-2/3 bg-gradient-to-r from-sky-900/50 to-blue-900 pt-5 w-96"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -58,7 +58,7 @@ export const CreateMailModal = (props: CreateMailModalProps) => {
             <label className="block ">
               <input
                 className={
-                  "block w-full border-2 px-5 py-4 shadow rounded-xl text-xl font-sans hover:border-blue-700 focus:outline-blue-500"
+                  "block w-full border-2 px-5 py-4 shadow rounded-xl text-xl font-sans border-transparent hover:border-white outline-none bg-white/50 backdrop-blur-3xl placeholder:text-gray-700"
                 }
                 placeholder="Title"
                 type="email"
@@ -70,7 +70,7 @@ export const CreateMailModal = (props: CreateMailModalProps) => {
               <textarea
                 placeholder="Content"
                 ref={contentInput}
-                className="w-full mt-2 border-2 resize-none px-5 py-4 shadow rounded-xl text-xl font-sans hover:border-blue-700 focus:outline-blue-500"
+                className="w-full mt-2 border-2 resize-none px-5 py-4 shadow rounded-xl text-xl font-sans border-transparent hover:border-white outline-none bg-white/50 backdrop-blur-3xl placeholder:text-gray-700"
               ></textarea>
             </label>
             <label className="block my-2">
@@ -78,7 +78,7 @@ export const CreateMailModal = (props: CreateMailModalProps) => {
                 disabled={!!loading}
                 type="button"
                 onClick={handleSubmitAsync}
-                className="block relative px-5 py-4 rounded-xl w-full bg-sky-600 hover:bg-sky-800 text-white text-3xl disabled:bg-blue-600"
+                className="block relative px-5 py-4 rounded-xl w-full bg-gradient-to-r from-blue-500/60 hover:from-blue-500 to-blue-700 text-white text-3xl disabled:bg-blue-600"
               >
                 <span className="content-center">
                   {loading
